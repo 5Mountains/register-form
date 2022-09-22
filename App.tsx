@@ -1,13 +1,13 @@
 import React from 'react';
-import {SafeAreaView, ScrollView, Text} from 'react-native';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+
+import {Navigation} from './src/navigation';
 
 const App = () => {
   return (
-    <SafeAreaView>
-      <ScrollView contentInsetAdjustmentBehavior="automatic">
-        <Text style={{textAlign: 'center'}}>Main Mage</Text>
-      </ScrollView>
-    </SafeAreaView>
+    <SafeAreaProvider>
+      <Navigation />
+    </SafeAreaProvider>
   );
 };
 
