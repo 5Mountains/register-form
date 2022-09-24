@@ -13,14 +13,13 @@ export const CustomButton = ({
   disabled,
 }: ICustomButton): JSX.Element => (
   <Pressable
-    disabled={disabled}
+    {...{disabled, onPress}}
     style={[
       styles.container,
       styles[`container_${type}`],
       !!bgColor && {backgroundColor: bgColor},
       disabled && {backgroundColor: colors.lightgrey},
-    ]}
-    onPress={onPress}>
+    ]}>
     <Text
       style={[
         styles.text,

@@ -25,7 +25,7 @@ export const FormInput = <ContentData extends FieldValues>({
 
   const handleOnFocus = () => setFocused(true);
   const handleOnBlur = () => setFocused(false);
-  const handleIconPress = () => setVisible(v => !v);
+  const handleIconPress = () => setVisible(val => !val);
 
   const {accent, positive} = colors;
 
@@ -51,11 +51,10 @@ export const FormInput = <ContentData extends FieldValues>({
               )}
               <TextInput
                 {...register(name)}
-                value={value as string}
+                {...{value, placeholder}}
                 onBlur={handleOnBlur}
                 onFocus={handleOnFocus}
                 onChangeText={onChange}
-                placeholder={placeholder}
                 secureTextEntry={visible}
                 style={styles({password}).input}
               />
