@@ -9,9 +9,9 @@ const Stack = createNativeStackNavigator<AuthStackNavigatorParamList>();
 
 export const AuthStack = (): JSX.Element => {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="SignIn" component={SignInScreen} />
+    <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name="SignUp" component={SignUpScreen} />
+      <Stack.Screen name="SignIn" component={SignInScreen} />
     </Stack.Navigator>
   );
 };
