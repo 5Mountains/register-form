@@ -1,17 +1,18 @@
-import {yupResolver} from '@hookform/resolvers/yup';
-import React, {useState} from 'react';
-import {useForm} from 'react-hook-form';
+import React, {useCallback, useEffect, useState} from 'react';
 import {View, Text, ScrollView} from 'react-native';
+
+import {useForm} from 'react-hook-form';
+import {yupResolver} from '@hookform/resolvers/yup';
+
 import {CustomButton} from '../../components/CustomButton';
 import {FormInput} from '../../components/FormInput';
 
 import {styles} from './styles';
-import {SignUpData} from './types';
+import {SignUpData, ValuePassedProps, ValueType} from './types';
 import {SignUpSchema} from './validations';
 
 export const SignUpScreen = () => {
   const [loading, setLoading] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [passed, setPassed] = useState({
     email: false,
     nickname: false,
@@ -48,7 +49,6 @@ export const SignUpScreen = () => {
 
   const disabled = Object.entries(errors).length > 0 || !isValid;
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const {nickname, email, phoneNumber, password, confirmPassword} = watch();
 
   const onSignUpPressed = async (data: SignUpData) => {
@@ -67,6 +67,75 @@ export const SignUpScreen = () => {
       reset();
     }
   };
+
+  const setValuePassed = useCallback(
+    ({isPassed, passedValue, passedError, valueType}: ValuePassedProps) => {
+      if (passedValue.length > 0 && !passedError) {
+        isPassed !== true &&
+          setPassed(prevState => ({
+            ...prevState,
+            [valueType]: true,
+          }));
+      } else {
+        isPassed !== false &&
+          setPassed(prevState => ({
+            ...prevState,
+            [valueType]: false,
+          }));
+      }
+    },
+    [],
+  );
+
+  useEffect(() => {
+    setValuePassed({
+      isPassed: passed.nickname,
+      passedValue: nickname,
+      passedError: nicknameError,
+      valueType: ValueType.nickname,
+    });
+  }, [nickname, nicknameError, passed.nickname, setValuePassed]);
+
+  useEffect(() => {
+    setValuePassed({
+      isPassed: passed.email,
+      passedValue: email,
+      passedError: emailError,
+      valueType: ValueType.email,
+    });
+  }, [email, emailError, passed.email, setValuePassed]);
+
+  useEffect(() => {
+    setValuePassed({
+      isPassed: passed.phoneNumber,
+      passedValue: phoneNumber,
+      passedError: phoneNumberError,
+      valueType: ValueType.phoneNumber,
+    });
+  }, [phoneNumber, phoneNumberError, passed.phoneNumber, setValuePassed]);
+
+  useEffect(() => {
+    setValuePassed({
+      isPassed: passed.password,
+      passedValue: password,
+      passedError: passwordError,
+      valueType: ValueType.password,
+    });
+  }, [passed.password, password, passwordError, setValuePassed]);
+
+  useEffect(() => {
+    setValuePassed({
+      isPassed: passed.confirmPassword,
+      passedValue: confirmPassword,
+      passedError: confirmPasswordError,
+      valueType: ValueType.confirmPassword,
+    });
+  }, [
+    passed.confirmPassword,
+    confirmPassword,
+    confirmPasswordError,
+    setValuePassed,
+  ]);
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>

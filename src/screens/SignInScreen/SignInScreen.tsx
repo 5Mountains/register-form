@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {View, Text, ScrollView} from 'react-native';
 import {CustomButton} from '../../components/CustomButton';
 import {FormInput} from '../../components/FormInput';
 
 import {styles} from './styles';
-import {SignInData} from './types';
+import {SignInData, ValuePassedProps, ValueType} from './types';
 
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SignInSchema} from './validation';
@@ -39,37 +39,42 @@ export const SignInScreen = () => {
 
   const {email, password} = watch();
 
-  useEffect(() => {
-    if (password.length > 0 && !passwordError) {
-      passed.password !== true &&
-        setPassed(prevState => ({
-          ...prevState,
-          password: true,
-        }));
-    } else {
-      passed.password !== false &&
-        setPassed(prevState => ({
-          ...prevState,
-          password: false,
-        }));
-    }
-  }, [passed.password, password, passwordError]);
+  const setValuePassed = useCallback(
+    ({isPassed, passedValue, passedError, valueType}: ValuePassedProps) => {
+      if (passedValue.length > 0 && !passedError) {
+        isPassed !== true &&
+          setPassed(prevState => ({
+            ...prevState,
+            [valueType]: true,
+          }));
+      } else {
+        isPassed !== false &&
+          setPassed(prevState => ({
+            ...prevState,
+            [valueType]: false,
+          }));
+      }
+    },
+    [],
+  );
 
   useEffect(() => {
-    if (email.length > 0 && !emailError) {
-      passed.email !== true &&
-        setPassed(prevState => ({
-          ...prevState,
-          email: true,
-        }));
-    } else {
-      passed.email !== false &&
-        setPassed(prevState => ({
-          ...prevState,
-          email: false,
-        }));
-    }
-  }, [email, emailError, passed.email]);
+    setValuePassed({
+      isPassed: passed.password,
+      passedValue: password,
+      passedError: passwordError,
+      valueType: ValueType.password,
+    });
+  }, [passed.password, password, passwordError, setValuePassed]);
+
+  useEffect(() => {
+    setValuePassed({
+      isPassed: passed.email,
+      passedValue: email,
+      passedError: emailError,
+      valueType: ValueType.email,
+    });
+  }, [email, emailError, passed.email, setValuePassed]);
 
   const disabled = Object.entries(errors).length > 0 || !isValid;
 
