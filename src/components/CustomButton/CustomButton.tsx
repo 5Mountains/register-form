@@ -11,6 +11,8 @@ export const CustomButton = ({
   bgColor,
   fgColor,
   disabled,
+  containerStyle,
+  textStyle,
 }: ICustomButton): JSX.Element => (
   <Pressable
     {...{disabled, onPress}}
@@ -19,6 +21,7 @@ export const CustomButton = ({
       styles[`container_${type}`],
       !!bgColor && {backgroundColor: bgColor},
       disabled && {backgroundColor: colors.lightgrey},
+      containerStyle && containerStyle,
     ]}>
     <Text
       style={[
@@ -26,6 +29,7 @@ export const CustomButton = ({
         styles[`text_${type}`],
         !!fgColor && {color: fgColor},
         disabled && {color: colors.black},
+        textStyle && textStyle,
       ]}>
       {text}
     </Text>

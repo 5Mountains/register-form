@@ -4,8 +4,8 @@ import {View, Text, ScrollView} from 'react-native';
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 
-import {CustomButton} from '../../components/CustomButton';
-import {FormInput} from '../../components/FormInput';
+import {CustomButton} from '../../../components/CustomButton';
+import {FormInput} from '../../../components/FormInput';
 
 import {styles} from './styles';
 import {SignUpData, ValuePassedProps, ValueType} from './types';

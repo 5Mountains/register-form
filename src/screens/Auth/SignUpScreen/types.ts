@@ -7,11 +7,11 @@ export type SignUpData = {
 };
 
 export enum ValueType {
-  'nickname',
-  'email',
-  'phoneNumber',
-  'password',
-  'confirmPassword',
+  nickname = 'nickname',
+  email = 'email',
+  phoneNumber = 'phoneNumber',
+  password = 'password',
+  confirmPassword = 'confirmPassword',
 }
 
 export type ValuePassedProps = {

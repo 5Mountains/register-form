@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {size, weight} from '../../theme/fonts';
+import {size, weight} from '../../../theme/fonts';
 
 export const styles = StyleSheet.create({
   root: {

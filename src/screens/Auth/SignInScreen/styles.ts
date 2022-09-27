@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {size, weight} from '../../theme/fonts';
+import {size, weight} from '../../../theme/fonts';
 
 export const styles = StyleSheet.create({
   root: {
@@ -20,5 +20,12 @@ export const styles = StyleSheet.create({
     fontWeight: weight.semi,
     fontStyle: 'italic',
     alignSelf: 'flex-start',
+  },
+  mainButton: {
+    marginTop: 20,
+    marginBottom: 30,
+  },
+  bottomButton: {
+    marginBottom: 20,
   },
 });

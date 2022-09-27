@@ -1,5 +1,4 @@
 import {HomeScreen} from './HomeScreen';
-import {SignInScreen} from './SignInScreen';
-import {SignUpScreen} from './SignUpScreen';
+import {SignInScreen, SignUpScreen, ForgotPasswordScreen} from './Auth';
 
-export {HomeScreen, SignInScreen, SignUpScreen};
+export {HomeScreen, SignInScreen, SignUpScreen, ForgotPasswordScreen};

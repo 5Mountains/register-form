@@ -3,7 +3,7 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {AuthStackNavigatorParamList} from '../types/navigation';
 
-import {SignInScreen, SignUpScreen} from '../screens';
+import {SignInScreen, SignUpScreen, ForgotPasswordScreen} from '../screens';
 
 const Stack = createNativeStackNavigator<AuthStackNavigatorParamList>();
 
@@ -12,6 +12,7 @@ export const AuthStack = (): JSX.Element => {
     <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name="SignIn" component={SignInScreen} />
       <Stack.Screen name="SignUp" component={SignUpScreen} />
+      <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
     </Stack.Navigator>
   );
 };
