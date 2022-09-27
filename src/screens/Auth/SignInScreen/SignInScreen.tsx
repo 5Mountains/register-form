@@ -1,16 +1,21 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
-import {View, Text, ScrollView} from 'react-native';
-import {CustomButton} from '../../components/CustomButton';
-import {FormInput} from '../../components/FormInput';
+import {Text, Keyboard, Pressable} from 'react-native';
+import {CustomButton} from '../../../components/CustomButton';
+import {FormInput} from '../../../components/FormInput';
 
 import {styles} from './styles';
 import {SignInData, ValuePassedProps, ValueType} from './types';
 
 import {yupResolver} from '@hookform/resolvers/yup';
 import {SignInSchema} from './validation';
+import {useNavigation} from '@react-navigation/native';
+import {SignInNavigationProp} from '../../../types/navigation';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 export const SignInScreen = () => {
+  const {navigate} = useNavigation<SignInNavigationProp>();
+
   const [loading, setLoading] = useState(false);
   const [passed, setPassed] = useState({
     email: false,
@@ -58,6 +63,29 @@ export const SignInScreen = () => {
     [],
   );
 
+  const disabled = Object.entries(errors).length > 0 || !isValid;
+
+  const onSignInPressed = async (data: SignInData) => {
+    if (loading) {
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      console.log(data);
+    } catch (error) {
+      console.log('Ooopps', (error as Error).message);
+    } finally {
+      setLoading(false);
+      reset();
+    }
+  };
+
+  const onForgotPasswordPressed = () => navigate('ForgotPassword');
+
+  const onSignUpPressed = () => navigate('SignUp');
+
   useEffect(() => {
     setValuePassed({
       isPassed: passed.password,
@@ -76,28 +104,13 @@ export const SignInScreen = () => {
     });
   }, [email, emailError, passed.email, setValuePassed]);
 
-  const disabled = Object.entries(errors).length > 0 || !isValid;
-
-  const onSignInPressed = async (data: SignInData) => {
-    if (loading) {
-      return;
-    }
-
-    setLoading(true);
-
-    try {
-      console.log(data.email, data.password);
-    } catch (error) {
-      console.log('Ooopps', (error as Error).message);
-    } finally {
-      setLoading(false);
-      reset();
-    }
-  };
-
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      <View style={styles.root}>
+    <KeyboardAwareScrollView
+      enableOnAndroid
+      enableResetScrollToCoords={false}
+      keyboardShouldPersistTaps="always"
+      keyboardDismissMode="interactive">
+      <Pressable onPress={Keyboard.dismiss} style={styles.root}>
         <Text style={styles.title}>Sign In</Text>
         <Text style={styles.subtitle}>Enter Your Details to Sign In</Text>
 
@@ -128,8 +141,21 @@ export const SignInScreen = () => {
           text={loading ? 'Loading..' : 'Sign In'}
           onPress={handleSubmit(onSignInPressed)}
           disabled={disabled}
+          containerStyle={styles.mainButton}
         />
-      </View>
-    </ScrollView>
+
+        <CustomButton
+          text="Forgot password"
+          onPress={onForgotPasswordPressed}
+          type="SECONDARY"
+        />
+        <CustomButton
+          text="Don't have an account? Create one"
+          onPress={onSignUpPressed}
+          type="TERTIARY"
+          containerStyle={styles.bottomButton}
+        />
+      </Pressable>
+    </KeyboardAwareScrollView>
   );
 };

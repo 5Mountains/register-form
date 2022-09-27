@@ -4,8 +4,8 @@ export type SignInData = {
 };
 
 export enum ValueType {
-  'password',
-  'email',
+  password = 'password',
+  email = 'email',
 }
 
 export type ValuePassedProps = {
