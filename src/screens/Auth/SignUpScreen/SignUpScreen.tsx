@@ -1,7 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {View, Text, ScrollView} from 'react-native';
+import {View, Text} from 'react-native';
 
-import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 
 import {CustomButton} from '../../../components/CustomButton';
@@ -10,8 +9,14 @@ import {FormInput} from '../../../components/FormInput';
 import {styles} from './styles';
 import {SignUpData, ValuePassedProps, ValueType} from './types';
 import {SignUpSchema} from './validations';
+import {useNavigation} from '@react-navigation/native';
+import {SignUpNavigationProp} from '../../../types/navigation';
+import {useForm} from 'react-hook-form/';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 export const SignUpScreen = () => {
+  const {navigate} = useNavigation<SignUpNavigationProp>();
+
   const [loading, setLoading] = useState(false);
   const [passed, setPassed] = useState({
     email: false,
@@ -66,6 +71,18 @@ export const SignUpScreen = () => {
       setLoading(false);
       reset();
     }
+  };
+
+  const onSignInPressed = () => {
+    navigate('SignIn');
+  };
+
+  const onTermsOfUsePressed = () => {
+    console.log('Terms of Use pressed');
+  };
+
+  const onPrivacyPolicyPressed = () => {
+    console.log('Privacy Policy Pressed');
   };
 
   const setValuePassed = useCallback(
@@ -138,7 +155,11 @@ export const SignUpScreen = () => {
   ]);
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <KeyboardAwareScrollView
+      enableOnAndroid
+      enableResetScrollToCoords={false}
+      keyboardShouldPersistTaps="always"
+      keyboardDismissMode="interactive">
       <View style={styles.root}>
         <Text style={styles.title}>Sign Up</Text>
         <Text style={styles.subtitle}>Enter Your Details to Sign Up</Text>
@@ -196,7 +217,26 @@ export const SignUpScreen = () => {
           onPress={handleSubmit(onSignUpPressed)}
           disabled={disabled}
         />
+
+        <Text style={styles.text}>
+          By registering, you confirm that you accept our{' '}
+          <Text style={styles.link} onPress={onTermsOfUsePressed}>
+            Terms of Use
+          </Text>{' '}
+          and{' '}
+          <Text style={styles.link} onPress={onPrivacyPolicyPressed}>
+            Privacy Policy
+          </Text>
+          .
+        </Text>
+
+        <CustomButton
+          text="Have an account? Sign in"
+          onPress={onSignInPressed}
+          containerStyle={styles.bottomButton}
+          type="TERTIARY"
+        />
       </View>
-    </ScrollView>
+    </KeyboardAwareScrollView>
   );
 };
