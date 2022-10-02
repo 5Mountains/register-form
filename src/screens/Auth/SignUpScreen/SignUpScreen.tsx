@@ -1,24 +1,22 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {View, Text} from 'react-native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
+import {useForm} from 'react-hook-form/';
+import {useNavigation} from '@react-navigation/native';
 import {yupResolver} from '@hookform/resolvers/yup';
 
 import {CustomButton} from '../../../components/CustomButton';
 import {FormInput} from '../../../components/FormInput';
 
 import {styles} from './styles';
-import {SignUpData, ValuePassedProps, ValueType} from './types';
+import {PassedProps, SignUpData, ValuePassedProps, ValueType} from './types';
 import {SignUpSchema} from './validations';
-import {useNavigation} from '@react-navigation/native';
 import {SignUpNavigationProp} from '../../../types/navigation';
-import {useForm} from 'react-hook-form/';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 export const SignUpScreen = () => {
-  const {navigate} = useNavigation<SignUpNavigationProp>();
-
-  const [loading, setLoading] = useState(false);
-  const [passed, setPassed] = useState({
+  const [loading, setLoading] = useState<Boolean>(false);
+  const [passed, setPassed] = useState<PassedProps>({
     email: false,
     nickname: false,
     phoneNumber: false,
@@ -26,6 +24,7 @@ export const SignUpScreen = () => {
     confirmPassword: false,
   });
 
+  const {navigate} = useNavigation<SignUpNavigationProp>();
   const {
     handleSubmit,
     control,
@@ -46,6 +45,8 @@ export const SignUpScreen = () => {
     },
   });
 
+  const {nickname, email, phoneNumber, password, confirmPassword} = watch();
+
   const nicknameError = errors?.nickname?.message;
   const emailError = errors?.email?.message;
   const phoneNumberError = errors?.phoneNumber?.message;
@@ -53,8 +54,6 @@ export const SignUpScreen = () => {
   const confirmPasswordError = errors?.confirmPassword?.message;
 
   const disabled = Object.entries(errors).length > 0 || !isValid;
-
-  const {nickname, email, phoneNumber, password, confirmPassword} = watch();
 
   const onSignUpPressed = async (data: SignUpData) => {
     if (loading) {
@@ -138,7 +137,7 @@ export const SignUpScreen = () => {
       passedError: passwordError,
       valueType: ValueType.password,
     });
-  }, [passed.password, password, passwordError, setValuePassed]);
+  }, [password, passwordError, passed.password, setValuePassed]);
 
   useEffect(() => {
     setValuePassed({
@@ -148,9 +147,9 @@ export const SignUpScreen = () => {
       valueType: ValueType.confirmPassword,
     });
   }, [
-    passed.confirmPassword,
     confirmPassword,
     confirmPasswordError,
+    passed.confirmPassword,
     setValuePassed,
   ]);
 

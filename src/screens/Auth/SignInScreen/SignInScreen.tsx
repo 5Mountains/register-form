@@ -1,27 +1,27 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {useForm} from 'react-hook-form';
 import {Text, Keyboard, Pressable} from 'react-native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+
+import {useNavigation} from '@react-navigation/native';
+import {useForm} from 'react-hook-form';
+import {yupResolver} from '@hookform/resolvers/yup';
+
 import {CustomButton} from '../../../components/CustomButton';
 import {FormInput} from '../../../components/FormInput';
 
 import {styles} from './styles';
-import {SignInData, ValuePassedProps, ValueType} from './types';
-
-import {yupResolver} from '@hookform/resolvers/yup';
+import {PassedValue, SignInData, ValuePassedProps, ValueType} from './types';
 import {SignInSchema} from './validation';
-import {useNavigation} from '@react-navigation/native';
 import {SignInNavigationProp} from '../../../types/navigation';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 export const SignInScreen = () => {
-  const {navigate} = useNavigation<SignInNavigationProp>();
-
-  const [loading, setLoading] = useState(false);
-  const [passed, setPassed] = useState({
+  const [loading, setLoading] = useState<Boolean>(false);
+  const [passed, setPassed] = useState<PassedValue>({
     email: false,
     password: false,
   });
 
+  const {navigate} = useNavigation<SignInNavigationProp>();
   const {
     handleSubmit,
     control,
@@ -39,10 +39,12 @@ export const SignInScreen = () => {
     },
   });
 
+  const {email, password} = watch();
+
   const emailError = errors?.email?.message;
   const passwordError = errors?.password?.message;
 
-  const {email, password} = watch();
+  const disabled = Object.entries(errors).length > 0 || !isValid;
 
   const setValuePassed = useCallback(
     ({isPassed, passedValue, passedError, valueType}: ValuePassedProps) => {
@@ -62,8 +64,6 @@ export const SignInScreen = () => {
     },
     [],
   );
-
-  const disabled = Object.entries(errors).length > 0 || !isValid;
 
   const onSignInPressed = async (data: SignInData) => {
     if (loading) {
@@ -88,21 +88,21 @@ export const SignInScreen = () => {
 
   useEffect(() => {
     setValuePassed({
-      isPassed: passed.password,
-      passedValue: password,
-      passedError: passwordError,
-      valueType: ValueType.password,
-    });
-  }, [passed.password, password, passwordError, setValuePassed]);
-
-  useEffect(() => {
-    setValuePassed({
       isPassed: passed.email,
       passedValue: email,
       passedError: emailError,
       valueType: ValueType.email,
     });
   }, [email, emailError, passed.email, setValuePassed]);
+
+  useEffect(() => {
+    setValuePassed({
+      isPassed: passed.password,
+      passedValue: password,
+      passedError: passwordError,
+      valueType: ValueType.password,
+    });
+  }, [password, passwordError, passed.password, setValuePassed]);
 
   return (
     <KeyboardAwareScrollView
