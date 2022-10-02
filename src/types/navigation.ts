@@ -19,3 +19,8 @@ export type SignUpNavigationProp = NativeStackNavigationProp<
   AuthStackNavigatorParamList,
   'SignUp'
 >;
+
+export type ForgotPasswordNavigationProp = NativeStackNavigationProp<
+  AuthStackNavigatorParamList,
+  'ForgotPassword'
+>;

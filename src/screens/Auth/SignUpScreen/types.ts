@@ -20,3 +20,11 @@ export type ValuePassedProps = {
   passedError: string | undefined;
   valueType: ValueType;
 };
+
+export type PassedProps = {
+  email: boolean;
+  nickname: boolean;
+  phoneNumber: boolean;
+  password: boolean;
+  confirmPassword: boolean;
+};

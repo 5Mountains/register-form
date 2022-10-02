@@ -21,4 +21,11 @@ export const styles = StyleSheet.create({
     fontStyle: 'italic',
     alignSelf: 'flex-start',
   },
+  mainButton: {
+    marginTop: 20,
+    marginBottom: 30,
+  },
+  bottomButton: {
+    marginBottom: 20,
+  },
 });

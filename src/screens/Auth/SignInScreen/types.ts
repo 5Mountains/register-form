@@ -14,3 +14,8 @@ export type ValuePassedProps = {
   passedError: string | undefined;
   valueType: ValueType;
 };
+
+export type PassedValue = {
+  email: boolean;
+  password: boolean;
+};
