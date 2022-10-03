@@ -63,7 +63,9 @@ export const SignUpScreen = () => {
     setLoading(true);
 
     try {
-      console.log(data);
+      const {email: userEmail} = data;
+
+      navigate('ConfirmEmail', {email: userEmail});
     } catch (error) {
       console.log('Ooopps', (error as Error).message);
     } finally {
@@ -212,7 +214,7 @@ export const SignUpScreen = () => {
         />
 
         <CustomButton
-          text={loading ? 'Loading..' : 'Sign Un'}
+          text={loading ? 'Loading..' : 'Sign Up'}
           onPress={handleSubmit(onSignUpPressed)}
           disabled={disabled}
         />
