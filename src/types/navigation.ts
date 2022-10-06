@@ -6,6 +6,7 @@ export type AuthStackNavigatorParamList = {
   SignUp: undefined;
   ForgotPassword: undefined;
   ConfirmEmail: {email?: string};
+  NewPassword: undefined;
 };
 
 export type HomeStackNavigatorParamList = {
@@ -35,4 +36,9 @@ export type ConfirmEmailNavigationProp = NativeStackNavigationProp<
 export type ConfirmEmailRouteProp = RouteProp<
   AuthStackNavigatorParamList,
   'ConfirmEmail'
+>;
+
+export type NewPasswordNavigationProp = NativeStackNavigationProp<
+  AuthStackNavigatorParamList,
+  'NewPassword'
 >;
