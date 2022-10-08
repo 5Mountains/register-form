@@ -8,6 +8,7 @@ import {
   SignUpScreen,
   ForgotPasswordScreen,
   ConfirmEmailScreen,
+  NewPasswordScreen,
 } from '../screens';
 
 const Stack = createNativeStackNavigator<AuthStackNavigatorParamList>();
@@ -19,6 +20,7 @@ export const AuthStack = (): JSX.Element => {
       <Stack.Screen name="SignUp" component={SignUpScreen} />
       <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
       <Stack.Screen name="ConfirmEmail" component={ConfirmEmailScreen} />
+      <Stack.Screen name="NewPassword" component={NewPasswordScreen} />
     </Stack.Navigator>
   );
 };
