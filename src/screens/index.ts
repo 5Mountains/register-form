@@ -4,6 +4,7 @@ import {
   SignUpScreen,
   ForgotPasswordScreen,
   ConfirmEmailScreen,
+  NewPasswordScreen,
 } from './Auth';
 
 export {
@@ -12,4 +13,5 @@ export {
   SignUpScreen,
   ForgotPasswordScreen,
   ConfirmEmailScreen,
+  NewPasswordScreen,
 };
